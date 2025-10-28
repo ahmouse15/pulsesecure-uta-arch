@@ -4,4 +4,3 @@
 #Except these
 !.gitignore
 !PKGBUILD
-!helper.install
