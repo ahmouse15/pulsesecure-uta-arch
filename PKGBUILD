@@ -12,17 +12,21 @@ depends=("glib2" "gtkmm3>=3.18" "webkit2gtk" "curl" "nss")
 options=("!debug")
 install="helper.install"
 
-source=("$pkgname.deb::https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb")
+source=("$pkgname-$pkgver.deb::https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb")
 sha256sums=("5cd66b89a1b07b6be4176ce554a6b5df1857b0aa67852e20f330d98d6cbcbe0b")
 
-#Must be defined here since srcdir is only defined in a function
+# Relative to $srcdir (which is the default working directory for all functions below)
 DATA_DIR="data"
 CONTROL_DIR="control"
 
-#Fixes directories and stuff
+# Fixes directories and stuff
 prepare()
 {
-    #Extract sub-tars
+    #Create needed directories
+    mkdir -p $srcdir/$DATA_DIR
+    mkdir -p $srcdir/$CONTROL_DIR
+
+    # Extract sub-tars (compression type may change in future, don't rely on ending)
     bsdtar -xf data.tar.* -C $DATA_DIR
     bsdtar -xf control.tar.* -C $CONTROL_DIR
 
@@ -31,20 +35,21 @@ prepare()
     rm -r $DATA_DIR/lib
 }
 
-#Copies output files after prepare phase into proper directories
-package()
-{
-    #Copy to output
-    cp -r $DATA_DIR/. $pkgdir
-
-    #Create symlink to executable in /usr/bin
-    mkdir -p $pkgdir/usr/bin
-    ln -s /opt/pulsesecure/bin/pulseUI $pkgdir/usr/bin/pulseUI
-}
-
-#Returns package version
+# Returns package version (makepkg uses this to autoupdate pkgver variable above)
 pkgver()
 {
-    #Parse version from .deb "control" manifest file
+    # Parse version from .deb "control" manifest file
     sed -z -e 's/.*Version: //' -e 's/\n.*//' "${CONTROL_DIR}/control"
+}
+
+
+# Copies output files after prepare() into proper directories
+package()
+{
+    # Copy to output
+    cp -r $DATA_DIR/. $pkgdir
+
+    # Create symlink to executable in /usr/bin
+    mkdir -p $pkgdir/usr/bin
+    ln -s /opt/pulsesecure/bin/pulseUI $pkgdir/usr/bin/pulseUI
 }
