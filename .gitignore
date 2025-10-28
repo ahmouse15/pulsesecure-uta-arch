@@ -1,0 +1,7 @@
+#Exclude everything
+*
+
+#Except these
+!.gitignore
+!PKGBUILD
+!helper.install
