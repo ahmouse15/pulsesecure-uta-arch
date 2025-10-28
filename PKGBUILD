@@ -37,7 +37,7 @@ prepare()
     cp -r "$DATA_DIR"/lib/. "$DATA_DIR"/usr/lib
     rm -r "$DATA_DIR"/lib
 
-    # Patch to fix CEF installer script. Credit: chiwanpark (See https://aur.archlinux.org/cgit/aur.git/tree/setup_cef.sh.patch?h=pulse-secure)
+    # Patch to fix CEF installer script. Credit: orbitrus / chiwanpark (See https://aur.archlinux.org/packages/pulse-secure?O=10#comment-1033351)
     patch "$DATA_DIR"/opt/pulsesecure/bin/setup_cef.sh setup_cef.sh.patch
 
     # Fix certificate path (pulse expects it to be in /etc/pki) Credit: earendilfr / chiwanpark (See https://aur.archlinux.org/packages/pulse-secure?O=50#comment-879232)
