@@ -7,7 +7,9 @@ depends=("glib2" "gtkmm3>=3.18" "webkit2gtk" "curl" "nss")
 #libglib2.0-0, libgtkmm-3.0-1v5 (>= 3.18), libwebkit2gtk-4.0-37, libcurl4, libnss3-tools``
 #optdepends=("")
 #conflicts=("")
-#license=("custom")
+
+url="https://pulse-vpn.uta.edu/split-tunnel"
+license=("unknown")
 
 options=("!debug")
 install="helper.install"
