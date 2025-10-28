@@ -12,13 +12,14 @@ depends=("glib2" "gtkmm3>=3.18" "webkit2gtk" "curl" "nss")
 options=("!debug")
 install="helper.install"
 
-source=("https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb")
+source=("$pkgname.deb::https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb")
 sha256sums=("5cd66b89a1b07b6be4176ce554a6b5df1857b0aa67852e20f330d98d6cbcbe0b")
 
 #Must be defined here since srcdir is only defined in a function
 DATA_DIR="data"
 CONTROL_DIR="control"
 
+#Fixes directories and stuff
 prepare()
 {
     #Extract sub-tars
@@ -30,13 +31,7 @@ prepare()
     rm -r $DATA_DIR/lib
 }
 
-#Builds source, in this case moves some files around
-#build()
-#{
-#    #TODO: Build .install script from Pulse .deb (post and pre install hooks)
-#}
-
-#Copies output files from build phase into proper directories
+#Copies output files after prepare phase into proper directories
 package()
 {
     #Copy to output
