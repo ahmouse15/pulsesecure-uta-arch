@@ -33,6 +33,33 @@ prepare()
     # /lib symlinks to /usr/lib and pacman requires using /usr/lib directly
     cp -r $DATA_DIR/lib/. $DATA_DIR/usr/lib
     rm -r $DATA_DIR/lib
+
+    # Create Arch .install script based on Deb contents
+    # Ignores preinst since it checks for dpkg, which we of course don't have on Arch
+    INSTALL_FILE=$srcdir/../$install
+
+    rm $INSTALL_FILE
+
+    # pre-install
+    # all this does is check that tar and dpkg are available. Not needed
+    #echo "pre_install() {" >> $INSTALL_FILE
+    #cat $CONTROL_DIR/preinst >> $INSTALL_FILE
+    #echo "}" >> $INSTALL_FILE
+
+    # post-install
+    echo "post_install() {" >> $INSTALL_FILE
+    cat $CONTROL_DIR/postinst >> $INSTALL_FILE
+    echo "}" >> $INSTALL_FILE
+
+    # pre-removal
+    echo "pre_remove() {" >> $INSTALL_FILE
+    cat $CONTROL_DIR/prerm >> $INSTALL_FILE
+    echo "}" >> $INSTALL_FILE
+
+    # post-removal
+    echo "post_remove() {" >> $INSTALL_FILE
+    cat $CONTROL_DIR/postrm >> $INSTALL_FILE
+    echo "}" >> $INSTALL_FILE
 }
 
 # Returns package version (makepkg uses this to autoupdate pkgver variable above)
