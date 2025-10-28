@@ -15,8 +15,10 @@ license=("unknown")
 options=("!debug")
 install="helper.install"
 
-source=("$pkgname-$pkgver.deb::https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb")
-sha256sums=("5cd66b89a1b07b6be4176ce554a6b5df1857b0aa67852e20f330d98d6cbcbe0b")
+source=("$pkgname-$pkgver.deb::https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb"
+        "setup_cef.sh.patch")
+sha256sums=('5cd66b89a1b07b6be4176ce554a6b5df1857b0aa67852e20f330d98d6cbcbe0b'
+            '7637a11ee0f8567c4bb2fbff1ed3d953906d907704210039548dfd35ef54efab')
 
 # Relative to $srcdir (which is the default working directory for all functions below)
 DATA_DIR="data"
