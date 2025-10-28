@@ -24,7 +24,7 @@ CONTROL_DIR="control"
 # Fixes directories and stuff
 prepare()
 {
-    #Create needed directories
+    # Create needed directories
     mkdir -p $srcdir/$DATA_DIR
     mkdir -p $srcdir/$CONTROL_DIR
 
