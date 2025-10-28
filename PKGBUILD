@@ -1,6 +1,6 @@
 pkgname="pulse-secure-vpn-uta"
-pkgver="22.8.2"
-pkgrel="1"
+pkgver=22.8.R2
+pkgrel=1
 pkgdesc="Pulse Secure VPN for UTA network"
 arch=("x86_64")
 depends=("glib2" "gtkmm3>=3.18" "webkit2gtk" "curl" "nss")
@@ -9,37 +9,36 @@ depends=("glib2" "gtkmm3>=3.18" "webkit2gtk" "curl" "nss")
 #conflicts=("")
 #license=("custom")
 
-options=("!debug !check")
+options=("!debug")
 install="helper.install"
 
 source=("https://pulse-vpn.uta.edu/dana-na/jam/getComponent.cgi?command=get&component=PulseSecure&platform=deb")
 sha256sums=("5cd66b89a1b07b6be4176ce554a6b5df1857b0aa67852e20f330d98d6cbcbe0b")
 
-#Builds source, in this case moves some files around
-build()
+#Must be defined here since srcdir is only defined in a function
+DATA_DIR="data"
+CONTROL_DIR="control"
+
+prepare()
 {
-    #Must be defined here since srcdir is only defined in a function
-    DATA_DIR="${srcdir}/data"
-    CONTROL_DIR="${srcdir}/control"
-    
     #Extract sub-tars
-    bsdtar -xf ${srcdir}/data.tar.* -C $DATA_DIR
-    bsdtar -xf ${srcdir}/control.tar.* -C $CONTROL_DIR
+    bsdtar -xf data.tar.* -C $DATA_DIR
+    bsdtar -xf control.tar.* -C $CONTROL_DIR
 
     # /lib symlinks to /usr/lib and pacman requires using /usr/lib directly
     cp -r $DATA_DIR/lib/. $DATA_DIR/usr/lib
     rm -r $DATA_DIR/lib
-
-    #TODO: Build .install script from Pulse source (post and pre install hooks)
 }
 
-#Packages packaged after being built and ready to just copy-paste
+#Builds source, in this case moves some files around
+#build()
+#{
+#    #TODO: Build .install script from Pulse .deb (post and pre install hooks)
+#}
+
+#Copies output files from build phase into proper directories
 package()
 {
-    #Must be defined here since srcdir is only defined in a function
-    DATA_DIR="${srcdir}/data"
-    CONTROL_DIR="${srcdir}/control"
-
     #Copy to output
     cp -r $DATA_DIR/. $pkgdir
 
@@ -51,10 +50,6 @@ package()
 #Returns package version
 pkgver()
 {
-    #Must be defined here since srcdir is only defined in a function
-    DATA_DIR="${srcdir}/data"
-    CONTROL_DIR="${srcdir}/control"
-
     #Parse version from .deb "control" manifest file
     sed -z -e 's/.*Version: //' -e 's/\n.*//' "${CONTROL_DIR}/control"
 }
