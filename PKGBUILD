@@ -1,4 +1,4 @@
-pkgname="pulse-secure-vpn-uta"
+pkgname="pulse-secure-uta"
 pkgver=22.8.R2
 pkgrel=1
 pkgdesc="Pulse Secure VPN for UTA network"
