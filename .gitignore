@@ -4,3 +4,4 @@
 #Except these
 !.gitignore
 !PKGBUILD
+!setup_cef.sh.patch
