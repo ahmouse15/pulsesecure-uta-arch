@@ -3,5 +3,6 @@
 
 #Except these
 !.gitignore
+!README.md
 !PKGBUILD
 !setup_cef.sh.patch
